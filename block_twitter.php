@@ -27,23 +27,24 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/blocks/twitter/locallib.php');
 
 class block_twitter extends block_base {
-    function init() {
+
+    public function init() {
         $this->title = get_string('pluginname', 'block_twitter');
     }
 
-    function applicable_formats() {
+    public function applicable_formats() {
         return array('all' => true);
     }
 
-    function has_config() {
+    public function has_config() {
         return true;
     }
 
-    function instance_allow_multiple() {
+    public function instance_allow_multiple() {
         return true;
     }
 
-    function get_content() {
+    public function get_content() {
         global $CFG, $DB, $OUTPUT, $COURSE;
 
         if ($this->content !== null) {
@@ -92,31 +93,30 @@ class block_twitter extends block_base {
             $time = block_twitter_relativetime($time);
             $actions = '';
             $replyurl = new moodle_url('https://twitter.com/intent/tweet', array('in_reply_to'=>$tweet->id));
-            $actions .= html_writer::link($replyurl, $this->icon('reply'), array('class'=>'replylink'));
+            $actions .= html_writer::link($replyurl, $this->icon('reply'), array('class' => 'replylink'));
             $retweeturl = new moodle_url('https://twitter.com/intent/retweet', array('tweet_id'=>$tweet->id));
-            $actions .= html_writer::link($retweeturl, $this->icon('retweet'), array('class'=>'retweetlink'));
+            $actions .= html_writer::link($retweeturl, $this->icon('retweet'), array('class' => 'retweetlink'));
             $likeurl = new moodle_url('https://twitter.com/intent/like', array('tweet_id'=>$tweet->id));
-            $actions .= html_writer::link($likeurl, $this->icon('like'), array('class'=>'likelink'));
+            $actions .= html_writer::link($likeurl, $this->icon('like'), array('class' => 'likelink'));
 
-            $tweet = html_writer::tag('div', html_writer::empty_tag('img', array('src'=>$avatar)), array('class'=>'avatar'));
+            $tweet = html_writer::tag('div', html_writer::empty_tag('img', array('src'=>$avatar)), array('class' => 'avatar'));
             $accounturl = new moodle_url('http://twitter.com/'.$handle);
-            $tweet .= html_writer::tag('date', $time, array('class'=>'time'));
-            $tweet .= html_writer::link($accounturl, $user, array('class'=>'name'));
-            $tweet .= html_writer::tag('div', '@'.$handle, array('class'=>'handle'));
-            $tweet .= html_writer::tag('div', $text, array('class'=>'text'));
+            $tweet .= html_writer::tag('date', $time, array('class' => 'time'));
+            $tweet .= html_writer::link($accounturl, $user, array('class' => 'name'));
+            $tweet .= html_writer::tag('div', '@'.$handle, array('class' => 'handle'));
+            $tweet .= html_writer::tag('div', $text, array('class' => 'text'));
             if ($rt) {
-                $tweet .= html_writer::tag('div', $this->icon('retweet').$rt, array('class'=>'retweet'));
+                $tweet .= html_writer::tag('div', $this->icon('retweet').$rt, array('class' => 'retweet'));
             }
-            $tweet .= html_writer::tag('div', $actions, array('class'=>'actions'));
+            $tweet .= html_writer::tag('div', $actions, array('class' => 'actions'));
 
-
-            $this->content->text .= html_writer::tag('div', $tweet, array('class'=>'tweet'));
+            $this->content->text .= html_writer::tag('div', $tweet, array('class' => 'tweet'));
         }
 
         return $this->content;
     }
 
-    function icon($icon) {
+    private function icon($icon) {
         switch ($icon) {
             case 'retweet':
                 return '<svg class="retweeticon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 72"><path d="M70.676 36.644C70.166 35.636 69.13 35 68 35h-7V19c0-2.21-1.79-4-4-4H34c-2.21 0-4 1.79-4 4s1.79 4 4 4h18c.552 0 .998.446 1 .998V35h-7c-1.13 0-2.165.636-2.676 1.644-.51 1.01-.412 2.22.257 3.13l11 15C55.148 55.545 56.046 56 57 56s1.855-.455 2.42-1.226l11-15c.668-.912.767-2.122.256-3.13zM40 48H22c-.54 0-.97-.427-.992-.96L21 36h7c1.13 0 2.166-.636 2.677-1.644.51-1.01.412-2.22-.257-3.13l-11-15C18.854 15.455 17.956 15 17 15s-1.854.455-2.42 1.226l-11 15c-.667.912-.767 2.122-.255 3.13C3.835 35.365 4.87 36 6 36h7l.012 16.003c.002 2.208 1.792 3.997 4 3.997h22.99c2.208 0 4-1.79 4-4s-1.792-4-4-4z"/></svg>';

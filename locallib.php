@@ -57,20 +57,28 @@ function block_twitter_get_tweets($handle) {
 }
 
 function block_twitter_relativetime($ts) {
-    if(!ctype_digit($ts)) {
+    if (!ctype_digit($ts)) {
         $ts = strtotime($ts);
     }
 
     $diff = time() - $ts;
-    if($diff == 0) {
+    if ($diff == 0) {
         return 'now';
-    } else if($diff > 0) {
-        $day_diff = floor($diff / 86400);
-        if ($day_diff == 0) {
-            if($diff < 120) return '1m';
-            if($diff < 3600) return floor($diff / 60) . 'm';
-            if($diff < 7200) return '1h';
-            if($diff < 86400) return floor($diff / 3600) . 'h';
+    } else if ($diff > 0) {
+        $daydiff = floor($diff / 86400);
+        if ($daydiff == 0) {
+            if ($diff < 120) {
+                return '1m';
+            }
+            if ($diff < 3600) {
+                return floor($diff / 60) . 'm';
+            }
+            if ($diff < 7200) {
+                return '1h';
+            }
+            if ($diff < 86400) {
+                return floor($diff / 3600) . 'h';
+            }
         }
         if ($diff > 31557600) {
             return date('d M Y', $ts);
