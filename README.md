@@ -12,14 +12,13 @@ This plugin requires Moodle 2.7 or greater
 
 ## Installation
 
-Install the plugin like any other plugin to folder
+*   Install the plugin like any other plugin to folder
 /blocks/twitter
-
-See http://docs.moodle.org/29/en/Installing_plugins for details on installing Moodle plugins
-To enable the twitter block to contact the twitter API you will need to set up an application for twitter to use.
-Visit https://apps.twitter.com/ and login with your twitter account to use this application.
-For configuration on Moodle, you will need a Consuer Key, Consumer Secret, Access Token, and an Access Token Secret.
-Once you have these details, fill in the relevant settings for the block in moodle through the plugin administration interface.
+*   See http://docs.moodle.org/29/en/Installing_plugins for details on installing Moodle plugins
+*   To enable the twitter block to contact the twitter API you will need to set up an application for twitter to use.
+*   Visit https://apps.twitter.com/ and login with your twitter account to use this application.
+*   For configuration on Moodle, you will need a Consuer Key, Consumer Secret, Access Token, and an Access Token Secret.
+*   Once you have these details, fill in the relevant settings for the block in moodle through the plugin administration interface.
 
 ### Usage
 
@@ -33,9 +32,9 @@ block_twitter should work with all themes from moodle core.
 
 ### Further information
 
-This block uses the PHP twitter oauth library from [https://github.com/abraham/twitteroauth](https://github.com/abraham/twitteroauth)
-block_twitter is found in the Moodle Plugins repository: [https://moodle.org/plugins/view.php?plugin=block_twitter](https://moodle.org/plugins/view.php?plugin=block_twitter)
-Report a bug or suggest an improvement: [https://github.com/iamandrew/moodle-block_twitter/issues](https://github.com/iamandrew/moodle-block_twitter/issues)
+*   This block uses the PHP twitter oauth library from [https://github.com/abraham/twitteroauth](https://github.com/abraham/twitteroauth)
+*   block_twitter is found in the Moodle Plugins repository: [https://moodle.org/plugins/view.php?plugin=block_twitter](https://moodle.org/plugins/view.php?plugin=block_twitter)
+*   Report a bug or suggest an improvement: [https://github.com/iamandrew/moodle-block_twitter/issues](https://github.com/iamandrew/moodle-block_twitter/issues)
 
 ### Thanks
 
