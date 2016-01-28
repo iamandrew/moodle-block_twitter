@@ -1,0 +1,70 @@
+.block.block_twitter .tweet {
+    margin-bottom: 10px;
+    padding-bottom: 2px;
+    clear: both;
+    border-bottom: 1px solid #cccccc;
+}
+
+.block.block_twitter .tweet:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.block.block_twitter .tweet .avatar {
+    float: left;
+    margin-right: 5px;
+    padding-top: 5px;
+}
+
+.block.block_twitter .tweet .text {
+    padding-left: 60px;
+}
+
+.block.block_twitter .tweet .retweet {
+    padding-left: 50px;
+    font-size: 75%;
+}
+
+.block.block_twitter .tweet .retweet .retweeticon {
+    width: 15px;
+    height: 15px;
+    fill: #777;
+    display: inline-block;
+    margin-bottom: -4px;
+    margin-right: 3px;
+}
+
+.block.block_twitter .tweet .time {
+    float: right;
+    font-size: 75%;
+}
+
+.block.block_twitter .tweet .actions {
+    float: right;
+    visibility: hidden;
+}
+
+.block.block_twitter .tweet:hover .actions {
+    visibility: visible;
+}
+
+.block.block_twitter .tweet .actions svg {
+    width: 20px;
+    height: 20px;
+    fill: #777;
+    float: left;
+    margin-right: 3px;
+}
+
+.block.block_twitter .tweet .actions .replyicon:hover {
+    fill: #1da1f2;
+}
+
+.block.block_twitter .tweet .actions .retweeticon:hover {
+    fill: #19CF86;
+}
+
+.block.block_twitter .tweet .actions .likeicon:hover {
+    fill: #E81C4F;
+}
