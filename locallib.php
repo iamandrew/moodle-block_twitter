@@ -37,12 +37,8 @@ function block_twitter_get_tweets($handle) {
     }
 
     $tconf = get_config('block_twitter');
-    define('CONSUMER_KEY', $tconf->consumerkey);
-    define('CONSUMER_SECRET', $tconf->consumersecret);
-    define('TWITTER_TOKEN', $tconf->accesstoken);
-    define('TWITTER_TOKEN_SECRET', $tconf->accesssecret);
 
-    $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, TWITTER_TOKEN, TWITTER_TOKEN_SECRET);
+    $connection = new TwitterOAuth($tconf->consumerkey, $tconf->consumersecret, $tconf->accesstoken, $tconf->accesssecret);
     $connection->resetLastResponse();
     $tweets = $connection->get("statuses/user_timeline", ["screen_name" => $handle, 'exclude_replies' => true, 'trim_user' => false]);
 
@@ -63,21 +59,21 @@ function block_twitter_relativetime($ts) {
 
     $diff = time() - $ts;
     if ($diff == 0) {
-        return 'now';
+        return get_string('now');
     } else if ($diff > 0) {
         $daydiff = floor($diff / 86400);
         if ($daydiff == 0) {
             if ($diff < 120) {
-                return '1m';
+                return get_string('numminutes', '', 1);
             }
             if ($diff < 3600) {
-                return floor($diff / 60) . 'm';
+                return get_string('numminutes', '', floor($diff / 60));
             }
             if ($diff < 7200) {
-                return '1h';
+                return get_string('numhours', '', 1);
             }
             if ($diff < 86400) {
-                return floor($diff / 3600) . 'h';
+                return get_string('numhours', '', floor($diff / 3600));
             }
         }
         if ($diff > 31557600) {

@@ -57,6 +57,25 @@
     margin-right: 3px;
 }
 
+.block.block_twitter .tweet .actions .icon {
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin-right: 3px;
+}
+
+.block.block_twitter .tweet .actions .icon.hover {
+    display: none;
+}
+
+.block.block_twitter .tweet .actions a:hover .icon.default {
+    display: none;
+}
+
+.block.block_twitter .tweet .actions a:hover .icon.hover {
+    display: block;
+}
+
 .block.block_twitter .tweet .actions .replyicon:hover {
     fill: #1da1f2;
 }

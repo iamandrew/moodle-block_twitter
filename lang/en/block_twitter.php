@@ -35,3 +35,7 @@ $string['retweetedby'] = 'Retweeted by';
 $string['shownumentrieslabel'] = 'Number of tweets to show';
 $string['twitter:addinstance'] = 'Add a new twitter feed block';
 $string['twitterhandle'] = 'Twitter handle (without @)';
+
+$string['retweet'] = 'Retweet';
+$string['reply'] = 'Reply';
+$string['like'] = 'Like';

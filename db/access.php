@@ -36,7 +36,7 @@ $capabilities = array(
         'clonepermissionsfrom' => 'moodle/my:manageblocks'
     ),
     'block/twitter:addinstance' => array(
-        'riskbitmask' => RISK_SPAM | RISK_XSS,
+        'riskbitmask' => RISK_SPAM,
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
