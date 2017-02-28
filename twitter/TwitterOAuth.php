@@ -244,7 +244,7 @@ class TwitterOAuth extends Config
      *
      * @return array|object
      */
-    private function uploadMediaNotChunked($path, $parameters)
+    private function uploadMediaNotChunked($path, array $parameters)
     {
         $file = file_get_contents($parameters['media']);
         $base = base64_encode($file);
@@ -260,14 +260,9 @@ class TwitterOAuth extends Config
      *
      * @return array|object
      */
-    private function uploadMediaChunked($path, $parameters)
+    private function uploadMediaChunked($path, array $parameters)
     {
-        // Init
-        $init = $this->http('POST', self::UPLOAD_HOST, $path, [
-            'command' => 'INIT',
-            'media_type' => $parameters['media_type'],
-            'total_bytes' => filesize($parameters['media'])
-        ]);
+        $init = $this->http('POST', self::UPLOAD_HOST, $path, $this->mediaInitParameters($parameters));
         // Append
         $segment_index = 0;
         $media = fopen($parameters['media'], 'rb');
@@ -287,6 +282,30 @@ class TwitterOAuth extends Config
             'media_id' => $init->media_id_string
         ]);
         return $finalize;
+    }
+
+    /**
+     * Private method to get params for upload media chunked init.
+     * Twitter docs: https://dev.twitter.com/rest/reference/post/media/upload-init.html
+     *
+     * @param array  $parameters
+     *
+     * @return array
+     */
+    private function mediaInitParameters(array $parameters)
+    {
+        $return = [
+            'command' => 'INIT',
+            'media_type' => $parameters['media_type'],
+            'total_bytes' => filesize($parameters['media'])
+        ];
+        if (isset($parameters['additional_owners'])) {
+            $return['additional_owners'] = $parameters['additional_owners'];
+        }
+        if (isset($parameters['media_category'])) {
+            $return['media_category'] = $parameters['media_category'];
+        }
+        return $return;
     }
 
     /**
@@ -345,7 +364,7 @@ class TwitterOAuth extends Config
      * @return string
      * @throws TwitterOAuthException
      */
-    private function request($url, $method, $authorization, $postfields)
+    private function request($url, $method, $authorization, array $postfields)
     {
         /* Curl settings */
         $options = [
@@ -360,8 +379,16 @@ class TwitterOAuth extends Config
             CURLOPT_TIMEOUT => $this->timeout,
             CURLOPT_URL => $url,
             CURLOPT_USERAGENT => $this->userAgent,
-            CURLOPT_ENCODING => 'gzip',
         ];
+
+        /* Remove CACert file when in a PHAR file. */
+        if ($this->pharRunning()) {
+            unset($options[CURLOPT_CAINFO]);
+        }
+
+        if($this->gzipEncoding) {
+            $options[CURLOPT_ENCODING] = 'gzip';
+        }
 
         if (!empty($this->proxy)) {
             $options[CURLOPT_PROXY] = $this->proxy['CURLOPT_PROXY'];
@@ -438,11 +465,20 @@ class TwitterOAuth extends Config
      *
      * @return string
      */
-    private function encodeAppAuthorization($consumer)
+    private function encodeAppAuthorization(Consumer $consumer)
     {
-        // TODO: key and secret should be rfc 1738 encoded
-        $key = $consumer->key;
-        $secret = $consumer->secret;
+        $key = rawurlencode($consumer->key);
+        $secret = rawurlencode($consumer->secret);
         return base64_encode($key . ':' . $secret);
+    }
+
+    /**
+     * Is the code running from a Phar module.
+     *
+     * @return boolean
+     */
+    private function pharRunning()
+    {
+        return class_exists('Phar') && \Phar::running(false) !== '';
     }
 }
