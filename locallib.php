@@ -40,14 +40,17 @@ function block_twitter_get_tweets($handle) {
 
     $connection = new TwitterOAuth($tconf->consumerkey, $tconf->consumersecret, $tconf->accesstoken, $tconf->accesssecret);
     $connection->resetLastResponse();
-    $tweets = $connection->get("statuses/user_timeline", ["screen_name" => $handle, 'exclude_replies' => true, 'trim_user' => false]);
-
-    if (isset($tweets->errors)) {
-        $error = reset($tweets->errors);
-        debugging(get_string('error').' '.$error->code.': '.$error->message, DEBUG_DEVELOPER);
-        return '';
+    try {
+        $tweets = $connection->get("statuses/user_timeline", ["screen_name" => $handle, 'exclude_replies' => true, 'trim_user' => false]);
+        if (isset($tweets->errors)) {
+            $error = reset($tweets->errors);
+            debugging(get_string('error').' '.$error->code.': '.$error->message, DEBUG_DEVELOPER);
+            return '';
+        }
+        $cache->set('tweets_'.$handle, $tweets);
+    } catch (Exception $e) {
+        return get_string('communicationerror', 'block_twitter');
     }
-    $cache->set('tweets_'.$handle, $tweets);
 
     return $tweets;
 }

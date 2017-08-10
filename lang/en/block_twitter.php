@@ -26,6 +26,7 @@ $string['accesstoken'] = 'Access Token';
 $string['accesstokendesc'] = 'Access token from your twitter app';
 $string['accesssecret'] = 'Access Token Secret';
 $string['accesssecretdesc'] = 'Access token secret from your twitter app';
+$string['communicationerror'] = 'Could not gather tweets due to a communications error';
 $string['consumerkey'] = 'Consumer Key';
 $string['consumerkeydesc'] = 'Consumer key from your twitter app';
 $string['consumersecret'] = 'Consumer Secret';

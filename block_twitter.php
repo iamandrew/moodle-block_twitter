@@ -70,6 +70,10 @@ class block_twitter extends block_base {
         if (!$tweets) {
             return $this->content;
         }
+        if (is_string($tweets)) {
+            $this->content->text = $tweets;
+            return $this->content;
+        }
 
         $i = 0;
         foreach ($tweets as $tweet) {
@@ -101,18 +105,19 @@ class block_twitter extends block_base {
             $likeurl = new moodle_url('https://twitter.com/intent/like', array('tweet_id'=>$tweet->id));
             $actions .= html_writer::link($likeurl, $renderer->icon('like'), array('class' => 'likelink'));
 
-            $tweet = html_writer::tag('div', html_writer::empty_tag('img', array('src'=>$avatar)), array('class' => 'avatar'));
+            $context = new stdClass();
+            $context->avatar = $avatar;
             $accounturl = new moodle_url('http://twitter.com/'.$handle);
-            $tweet .= html_writer::tag('date', $time, array('class' => 'time'));
-            $tweet .= html_writer::link($accounturl, $user, array('class' => 'name'));
-            $tweet .= html_writer::tag('div', '@'.$handle, array('class' => 'handle'));
-            $tweet .= html_writer::tag('div', format_text($text), array('class' => 'text'));
-            if ($rt) {
-                $tweet .= html_writer::tag('div', $renderer->icon('retweet').$rt, array('class' => 'retweet'));
-            }
-            $tweet .= html_writer::tag('div', $actions, array('class' => 'actions'));
+            $context->accounturl = $accounturl->out();
+            $context->time = $time;
+            $context->user = $user;
+            $context->handle = $handle;
+            $context->text = format_text($text);
+            $context->icon = $renderer->icon('retweet');
+            $context->rt = $rt;
+            $context->actions = $actions;
 
-            $this->content->text .= html_writer::tag('div', $tweet, array('class' => 'tweet'));
+            $this->content->text .= $OUTPUT->render_from_template('block_twitter/tweet', $context);
         }
 
         return $this->content;
