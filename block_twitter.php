@@ -82,14 +82,14 @@ class block_twitter extends block_base {
             }
             $i ++;
             if (isset($tweet->retweeted_status)) {
-                $text = $tweet->retweeted_status->text;
+                $text = $tweet->retweeted_status->full_text;
                 $time = strtotime($tweet->retweeted_status->created_at);
                 $user = $tweet->retweeted_status->user->name;
                 $handle = $tweet->retweeted_status->user->screen_name;
                 $avatar = $tweet->retweeted_status->user->profile_image_url;
                 $rt = get_string('retweetedby', 'block_twitter').' '.$tweet->user->screen_name;
             } else {
-                $text = $tweet->text;
+                $text = $tweet->full_text;
                 $time = strtotime($tweet->created_at);
                 $user = $tweet->user->name;
                 $handle = $tweet->user->screen_name;
