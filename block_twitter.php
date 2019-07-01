@@ -76,6 +76,7 @@ class block_twitter extends block_base {
         }
 
         $i = 0;
+        $context = new stdClass();
         foreach ($tweets as $tweet) {
             if ($i == $this->config->shownumentries) {
                 break;
@@ -105,21 +106,22 @@ class block_twitter extends block_base {
             $likeurl = new moodle_url('https://twitter.com/intent/like', array('tweet_id'=>$tweet->id));
             $actions .= html_writer::link($likeurl, $renderer->icon('like'), array('class' => 'likelink'));
 
-            $context = new stdClass();
-            $context->avatar = $avatar;
+            $tweetcontext = new stdClass();
+            $tweetcontext->avatar = $avatar;
             $accounturl = new moodle_url('http://twitter.com/'.$handle);
-            $context->accounturl = $accounturl->out();
-            $context->time = $time;
-            $context->user = $user;
-            $context->handle = $handle;
-            $context->text = format_text($text);
-            $context->icon = $renderer->icon('retweet');
-            $context->rt = $rt;
-            $context->actions = $actions;
+            $tweetcontext->accounturl = $accounturl->out();
+            $tweetcontext->time = $time;
+            $tweetcontext->user = $user;
+            $tweetcontext->handle = $handle;
+            $tweetcontext->text = format_text($text);
+            $tweetcontext->icon = $renderer->icon('retweet');
+            $tweetcontext->rt = $rt;
+            $tweetcontext->actions = $actions;
 
-            $this->content->text .= $OUTPUT->render_from_template('block_twitter/tweet', $context);
+            $context->tweets[] = $tweetcontext;
+
         }
-
+        $this->content->text = $OUTPUT->render_from_template('block_twitter/tweets', $context);
         return $this->content;
     }
 
