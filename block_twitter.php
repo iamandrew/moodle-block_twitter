@@ -87,14 +87,14 @@ class block_twitter extends block_base {
                 $time = strtotime($tweet->retweeted_status->created_at);
                 $user = $tweet->retweeted_status->user->name;
                 $handle = $tweet->retweeted_status->user->screen_name;
-                $avatar = $tweet->retweeted_status->user->profile_image_url;
+                $avatar = $tweet->retweeted_status->user->profile_image_url_https;
                 $rt = get_string('retweetedby', 'block_twitter').' '.$tweet->user->screen_name;
             } else {
                 $text = $tweet->full_text;
                 $time = strtotime($tweet->created_at);
                 $user = $tweet->user->name;
                 $handle = $tweet->user->screen_name;
-                $avatar = $tweet->user->profile_image_url;
+                $avatar = $tweet->user->profile_image_url_https;
                 $rt = false;
             }
             $time = block_twitter_relativetime($time);
@@ -108,7 +108,7 @@ class block_twitter extends block_base {
 
             $tweetcontext = new stdClass();
             $tweetcontext->avatar = $avatar;
-            $accounturl = new moodle_url('http://twitter.com/'.$handle);
+            $accounturl = new moodle_url('https://twitter.com/'.$handle);
             $tweetcontext->accounturl = $accounturl->out();
             $tweetcontext->time = $time;
             $tweetcontext->user = $user;
